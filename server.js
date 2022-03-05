@@ -5,7 +5,31 @@ const Show = sequelize.define('show', {
     name: Sequelize.STRING
 })
 
-// const express = require("express")
+const express = require("express")
+const app = express()
+const path = require("path")
+// app.use(express.json())
+
+app.get('/', (req,res) => {
+    res.sendFile(path.join(__dirname, 'index.html'))
+})
+
+app.get('/api/shows', async(req,res,next)=>{
+    try {
+        res.send(await Show.findAll())
+    } catch(err) {
+        next(err)
+    }
+})
+
+app.post('/api/shows', async(req,res,next)=>{
+    try {
+        res.send(await Show.create({name:req.body}))
+    } catch(err) {
+        next(err)
+    }
+})
+
 
 
 const init = async() => {
@@ -18,6 +42,8 @@ const init = async() => {
         Show.create({name: 'My Hero Academia'})
         ])
     
+    const port = process.env.PORT || 8080;
+    app.listen(port, ()=> console.log(`listening on port ${port}`))
 }
 
 init()
