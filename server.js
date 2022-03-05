@@ -12,7 +12,7 @@ Show.generateRandom = function() {
 const express = require("express")
 const app = express()
 const path = require("path")
-// app.use(express.json())
+
 app.use('/dist', express.static(path.join(__dirname, 'dist')))
 
 app.get('/', (req,res,next) => res.sendFile(path.join(__dirname, 'index.html')))
@@ -27,7 +27,6 @@ app.get('/api/shows', async(req,res,next)=>{
 
 app.post('/api/shows', async(req,res,next)=>{
     try {
-    
         res.send(await Show.generateRandom())
     } catch(err) {
         next(err)
@@ -38,7 +37,6 @@ app.post('/api/shows', async(req,res,next)=>{
 
 const init = async() => {
     await sequelize.sync({force: true})
-    
     await Promise.all([
         Show.create({name: 'Attack on Titan'}),
         Show.create({name: 'This is Us'}),

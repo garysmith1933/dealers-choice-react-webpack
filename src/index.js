@@ -29,7 +29,6 @@ class App extends React.Component {
     
     render() {
         const shows = this.state.shows
-        console.log(shows)
         return (
             <div>
              <h2> I like { shows.length } shows! </h2>
