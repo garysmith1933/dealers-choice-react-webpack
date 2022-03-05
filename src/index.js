@@ -9,7 +9,7 @@ class App extends React.Component {
         this.state = {
             shows: []
         }
-        
+        this.addShow = this.addShow.bind(this)
     }
     
     async componentDidMount() {
@@ -19,12 +19,21 @@ class App extends React.Component {
         this.setState({shows})
     }
     
+    async addShow() {
+        const response = await axios.post('/api/shows')
+        const show = response.data
+        
+        const shows = [...this.state.shows, show]
+        this.setState({shows})
+    }
+    
     render() {
         const shows = this.state.shows
         console.log(shows)
         return (
             <div>
              <h2> I like { shows.length } shows! </h2>
+            <button onClick = {this.addShow}>Create</button>
             <ul> 
                 {
                     shows.map(show => <li key={show.id}> {show.name} </li>

@@ -5,6 +5,10 @@ const Show = sequelize.define('show', {
     name: Sequelize.STRING
 })
 
+Show.generateRandom = function() {
+    return this.create({name: `Show ${Math.ceil(Math.random()*1000)}`});
+}
+
 const express = require("express")
 const app = express()
 const path = require("path")
@@ -23,7 +27,8 @@ app.get('/api/shows', async(req,res,next)=>{
 
 app.post('/api/shows', async(req,res,next)=>{
     try {
-        res.send(await Show.create({name:req.body}))
+    
+        res.send(await Show.generateRandom())
     } catch(err) {
         next(err)
     }
